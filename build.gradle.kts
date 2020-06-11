@@ -21,7 +21,8 @@ dependencies {
     implementation("net.mamoe","mirai-core","1.0.2")
     implementation("net.mamoe","mirai-core-qqandroid","1.0.2")
     implementation("org.yaml","snakeyaml","1.21")
-    testCompile("junit", "junit", "4.12")
+    testImplementation(kotlin("test"))
+    testImplementation("junit", "junit", "4.12")
 }
 
 configure<JavaPluginConvention> {
@@ -29,9 +30,15 @@ configure<JavaPluginConvention> {
 }
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions {
+            jvmTarget = "1.8"
+            javaParameters = true
+        }
     }
     compileTestKotlin {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions {
+            jvmTarget = "1.8"
+            javaParameters = true
+        }
     }
 }

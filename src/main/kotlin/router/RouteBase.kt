@@ -1,34 +1,26 @@
 package router
 
-import annotaion.RoutePath
+import annotaion.RouteAnnotaion
+import net.mamoe.mirai.contact.Contact
+import net.mamoe.mirai.message.data.Message
+import net.mamoe.mirai.message.sendImage
+import java.awt.image.BufferedImage
+import java.io.BufferedInputStream
+import java.io.File
+import java.io.InputStream
+import java.net.URL
 import kotlin.reflect.full.declaredFunctions
 import kotlin.reflect.full.findAnnotation
 
-open class RouteBase(val message: List<String>):AbstractRouteGroup {
-    // 默认回复的接口 会根据message 通过反射获取对应方法调用
-    override fun reply(): String {
-        if (message.isEmpty()) {
-            return this.help()
-        }
-        this.javaClass.kotlin.declaredFunctions.forEach {
-            val annotation = it.findAnnotation<RoutePath>()
-            print("${it.name},${annotation?.path}")
-            if (annotation?.path.equals(message[0])) {
-                return it.call(this) as String
-            }
-        }
-        return "命令未找到"
-    }
+object RouteBase : AbstractRouteGroup() {
 
-    @RoutePath(path = "help")
-    override fun help(): String {
-        var s = ""
-        this.javaClass.kotlin.declaredFunctions.forEach {
-            val annotation = it.findAnnotation<RoutePath>()
-            if (annotation?.path != null) {
-                s += "\t ${annotation.path} \n"
-            }
-        }
-        return s
+
+    @RouteAnnotaion.FunctionPath(path = arrayOf("help","帮助"),description = "显示帮助信息")
+    override fun help(message: List<String>): String {
+        return super.help(message)
+    }
+    @RouteAnnotaion.FunctionPath(path = arrayOf("info","信息"),description = "查看机器人信息")
+    fun info(message: List<String>):String {
+        return "暂时还没有信息"
     }
 }

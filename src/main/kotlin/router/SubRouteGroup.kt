@@ -1,15 +1,16 @@
 package router
 
-import annotaion.RoutePath
+import annotaion.RouteAnnotaion
+import net.mamoe.mirai.contact.Contact
 
-class SubRouteGroup(message: List<String>): RouteBase(message),AbstractRouteGroup {
-    override fun reply(): String {
-        return super.reply()
+object SubRouteGroup: AbstractRouteGroup() {
+    override suspend fun reply(message: List<String>, subject: Contact) {
+        super.reply(message,subject)
     }
 
-    @RoutePath(path = "help")
-    override fun help(): String {
-        return super.help()
+    @RouteAnnotaion.FunctionPath(path = arrayOf("help","帮助"))
+    override fun help(message: List<String>): String {
+        return super.help(message)
     }
 
 }
